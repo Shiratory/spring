@@ -58,4 +58,19 @@
 					</if>
 				)
 	</insert>
+	
+	
+	<update id="updateInfo">
+		UPDATE employees
+		SET
+			last_name = #{info.lastName}
+			,email = #{info.email}
+			,salary = #{info.salary}
+		WHERE employee_id = #{id}
+	</update>
+	
+	<delete id="deleteInfo" parameterType="int">
+		DELETE FROM employees
+		WHERE employee_id = #{eid}
+	</delete>
 </mapper>
