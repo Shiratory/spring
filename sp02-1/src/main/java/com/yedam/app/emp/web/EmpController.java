@@ -14,7 +14,7 @@ import com.yedam.app.emp.service.EmpService;
 import com.yedam.app.emp.service.EmpVO;
 import com.yedam.app.emp.service.impl.EmpServiceImpl;
 
-import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;;
 
 @Controller
 // DispatcherServlet이 활용한 정보를 등록하는 Bean
