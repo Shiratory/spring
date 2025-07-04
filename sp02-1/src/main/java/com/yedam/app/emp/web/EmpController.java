@@ -77,7 +77,7 @@ public class EmpController {
 	}
 	
 	// 수정 - 페이지 : GET <=> 단건조회
-	@GetMapping("empInfo")
+	@GetMapping("empUpdate")
 	public String empUpdateForm(EmpVO empVO, Model model) {
 		EmpVO findVO = empService.findInfoById(empVO);
 		model.addAttribute("emp", findVO);
