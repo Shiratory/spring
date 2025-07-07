@@ -8,8 +8,7 @@
 <th:block th:replace="~{common/configs/default_config :: ContextPathConfig}"></th:block>
 </head>
 <body>
-	<h1>Thymeleaf Layout 적용</h1>
-	<hr>
+	<header th:insert="~{common/fragments/default_header :: HeaderFrag}"></header>
 	<main>
 		<th:block layout:fragment="Content"></th:block>
 	</main>
