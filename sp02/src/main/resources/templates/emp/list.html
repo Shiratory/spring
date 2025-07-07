@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+
+<body >
+  <div class="container text-center">
+    <h3 class="mt-3">전체사원조회</h3>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>입사일자</th>
+          <th>업무</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--/* 반복하고자 하는 태그 */-->
+        <th:block th:each="info, sts : ${emps}">
+          <!--/* thymeleaf의 변수를 사용할려면 문자리터널('|')을 양쪽에 적어서 변수를 사용할 수 있다. */-->
+          <!--/* 또한 링크를 할때는 '@{}'링크 표현식 사용하는 편이 좋다. */-->
+          <!--/* '@{}'링크 표현식에 '${}'변수 표현식을 인식하지 않으므로 '()'괄호안에 전달해준다. ('?'가 아니라) */-->
+          <!--/* 2개 이상 전달할때는 ','를 사용을 한다. (employeeId=${info.employeeId}, lastName=${info.lastName})) */-->
+          <!--/* <tr th:onclick="|location.href='@{/empInfo(employeeId=${info.employeeId}, lastName=${info.lastName})}'|"> */-->
+          <tr>
+            <td>[[ ${sts.count} ]]</td>
+            <td>[[ ${info.employeeId} ]]</td>
+            <td>[[ ${info.lastName} ]]</td>
+            <!-- hiredate: [[ ${info.hireDate} ]] -->
+            <td>[[ ${#dates.format(info.hireDate, 'yyyy년 MM월 dd일')} ]]</td>
+            <td>[[ ${info.jobId} ]]</td>
+          </tr>
+        </th:block>
+      </tbody>
+    </table>
+    <!-- <div>[[ ${emps} ]]</div> -->
+  </div>
+  <script>
+  // console.log(`${pageContext.request.contextPath}`); //JSP에서 'contextPath' 호출하는 방법
+  //<meta> 태그는 'contextText'가 없어서 .val()로 호출이 되지 않는다.
+  const context = $('meta[name="ctxPath"]').attr('value');
+  //모든 <tr>태그에 'click'이벤트 추가
+  $('tbody > tr').on('click', function(evnet) {
+    let trTag = event.currentTarget;
+    let eid = $(trTag).children().eq(1).text();
+    let url = `${context}/empInfo?employeeId=${eid}`;
+    //이곳에서 사용되는 '${}'는 자바스크립트에서 사용되는 변수 표현식입니다.
+    location.href = url;
+  });
+  </script>
+</body>
+</html>

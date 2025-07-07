@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.emp.mapper.EmpMapper">
+  <!-- Interface의 메서드를 통해 실행한 쿼리 정의 -->
+  <select id="selectAll" resultType="EmpVO">
+SELECT employee_id
+      ,last_name
+      ,email
+      ,hire_date
+      ,job_id
+      ,salary
+FROM employees
+ORDER BY employee_id
+  </select>
+  <select id="selectInfo" parameterType="EmpVO" resultType="EmpVO">
+SELECT employee_id
+      ,last_name
+      ,email
+      ,hire_date
+      ,job_id
+      ,salary
+FROM employees
+WHERE employee_id = #{employeeId}
+  </select>
+  <!-- 시퀀스는 employees_seq.NEXTVAL 사용해도된다. -->
+  <!-- 시퀀스가 없으면 
+  SELECT NVL(MAX(employee_id), 100) + 1
+  FROM employees;
+  를 사용해도 된다. -->
+  <!-- selectKey에서 order를 사용하면 insert 전과 후로 사용할 수 있다. -->
+  <insert id="insertInfo" parameterType="EmpVO">
+    <!-- selectKey => parameter -->
+    <selectKey keyProperty="employeeId"
+               resultType="Integer"
+               order="BEFORE">
+    SELECT NVL(MAX(employee_id), 100) + 1
+    FROM employees
+    </selectKey>
+INSERT INTO employees 
+  (
+    employee_id
+    , last_name
+    , email
+    , hire_date
+    , job_id
+    <if test="salary > 0">
+    , salary
+    </if>
+  )
+VALUES (
+        #{employeeId}
+        , #{lastName}
+        , #{email}
+        , SYSDATE
+        , #{jobId}
+    <if test="salary > 0">
+        , #{salary}
+    </if>
+      )
+  </insert>
+  <!-- @Param()를 사용하면 parameterType를 생략해도된다. -->
+  <update id="updateInfo">
+UPDATE employees
+SET
+  last_name = #{info.lastName}
+  , email = #{info.email}
+  , salary = #{info.salary}
+WHERE employee_id = #{id}
+  </update>
+  <!-- 기본 자료형이면 이름이 동일하지 않아도 된다. -->
+  <delete id="deleteInfo" parameterType="int">
+DELETE FROM employees
+WHERE employee_id = #{eid}
+  </delete>
+</mapper>

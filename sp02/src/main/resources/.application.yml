@@ -1,0 +1,22 @@
+server:
+  port: 8090
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: "*"
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: hr
+    password: hr
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: VARCHAR
+  type-aliases-package: com.yedam.app
+  mapper-locations: classpath:mapper/*/*.xml
+logging:
+  level:
+    "[com.yedam.app]": debug
